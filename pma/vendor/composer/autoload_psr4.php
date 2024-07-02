@@ -47,7 +47,7 @@ return array(
     'PhpMyAdmin\\' => array($baseDir . '/libraries/classes'),
     'ParagonIE\\ConstantTime\\' => array($vendorDir . '/paragonie/constant_time_encoding/src'),
     'League\\Uri\\' => array($vendorDir . '/league/uri/src', $vendorDir . '/league/uri-interfaces/src'),
-    'Fig\\Http\\Message\\' => array($vendorDir . '/fig/http-message-util/src'),
+    'Fig\\Http\\Message\\' => array($vendorDir . '/fig/http-message-com.example.devoir_java2.util/src'),
     'FastRoute\\' => array($vendorDir . '/nikic/fast-route/src'),
     'FG\\' => array($vendorDir . '/fgrosse/phpasn1/lib'),
     'DASPRiD\\Enum\\' => array($vendorDir . '/dasprid/enum/src'),

@@ -13,5 +13,5 @@ Install by adding the package as a [Composer](https://getcomposer.org)
 requirement:
 
 ```bash
-$ composer require fig/http-message-util
+$ composer require fig/http-message-com.example.devoir_java2.util
 ```

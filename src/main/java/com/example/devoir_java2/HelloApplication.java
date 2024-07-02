@@ -1,5 +1,6 @@
 package com.example.devoir_java2;
 
+import jakarta.persistence.EntityManagerFactory;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -15,6 +16,8 @@ public class HelloApplication extends Application {
         stage.setTitle("Hello!");
         stage.setScene(scene);
         stage.show();
+
+        EntityManagerFactory entityManagerFactory = JPAUTIL.getEntityManagerFactory();
     }
 
     public static void main(String[] args) {

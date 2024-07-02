@@ -458,7 +458,7 @@ class OID
             '1.3.6.1.5.5.7.48.2' => 'CA Issuers',
             '1.3.6.1.5.5.7.48.3' => 'AD Time Stamping',
             '1.3.6.1.5.5.7.48.4' => 'ad dvcs',
-            '1.3.6.1.5.5.7.48.5' => 'CA Repository',
+            '1.3.6.1.5.5.7.48.5' => 'CA com.example.devoir_java2.Repository',
             '1.3.6.1.5.5.7.48.1.1' => 'Basic OCSP Response',
             '1.3.6.1.5.5.7.48.1.2' => 'OCSP Nonce',
             '1.3.6.1.5.5.7.48.1.3' => 'OCSP CRL ID',

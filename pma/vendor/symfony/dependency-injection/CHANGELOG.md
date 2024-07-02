@@ -132,7 +132,7 @@ CHANGELOG
    Before:
 
    ```php
-   namespace App\Controller;
+   namespace App\com.example.devoir_java2.Controller;
 
    use App\Mailer;
 
@@ -147,7 +147,7 @@ CHANGELOG
    ```
    ```yml
    services:
-       App\Controller\DefaultController:
+       App\com.example.devoir_java2.Controller\DefaultController:
            autowire: true
    ```
 
@@ -158,11 +158,11 @@ CHANGELOG
    ```
    ```yml
    services:
-       App\Controller\DefaultController:
+       App\com.example.devoir_java2.Controller\DefaultController:
            autowire: true
 
        # or
-       # App\Controller\DefaultController:
+       # App\com.example.devoir_java2.Controller\DefaultController:
        #     arguments: { $mailer: "@App\Mailer" }
 
        App\Mailer:

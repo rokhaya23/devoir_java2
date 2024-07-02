@@ -2257,7 +2257,7 @@
 	};
 
 	/*
-	 * Add util object to allow access to private methods for testability.
+	 * Add com.example.devoir_java2.util object to allow access to private methods for testability.
 	 */
 	$.timepicker._util = {
 		_extendRemove: extendRemove,

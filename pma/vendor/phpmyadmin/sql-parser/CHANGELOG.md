@@ -421,7 +421,7 @@ Backport fixes from 5.0.0 to QA branch:
 * Misc: Added PHPUnit's Code Coverage 3.0 as a dependency.
 * Misc: Added support for PHP 5.4 back.
 * Misc: Removed dependency to Ctype.
-* Misc: Repository transferred from @udan11 to @phpMyAdmin.
+* Misc: com.example.devoir_java2.Repository transferred from @udan11 to @phpMyAdmin.
 * Misc: Updated `.gitignore` to ignore `composer.lock`.
 * Misc: Updated Composer and Travis configuration for PHP 7 and PHPUnit 5.
 * Tools: Documented tags in `ContextGenerator`.

@@ -270,7 +270,7 @@ From Wikipedia, the free encyclopedia
       .. seealso:: <https://en.wikipedia.org/wiki/PDF>
 
     PEAR
-      the PHP Extension and Application Repository.
+      the PHP Extension and Application com.example.devoir_java2.Repository.
 
       .. seealso:: `PEAR website <https://pear.php.net/>`_
       .. seealso:: `Wikipedia page for PEAR <https://en.wikipedia.org/wiki/PEAR>`_

@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace PhpMyAdmin\Controllers\Server\Status;
 
-use PhpMyAdmin\Controllers\AbstractController as Controller;
+use PhpMyAdmin\Controllers\AbstractController as com.example.devoir_java2.Controller;
 use PhpMyAdmin\ResponseRenderer;
 use PhpMyAdmin\Server\Status\Data;
 use PhpMyAdmin\Template;
 
-abstract class AbstractController extends Controller
+abstract class AbstractController extends com.example.devoir_java2.Controller
 {
     /** @var Data */
     protected $data;

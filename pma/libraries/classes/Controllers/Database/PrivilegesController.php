@@ -1,6 +1,6 @@
 <?php
 /**
- * Controller for database privileges
+ * com.example.devoir_java2.Controller for database privileges
  */
 
 declare(strict_types=1);
@@ -16,7 +16,7 @@ use PhpMyAdmin\Util;
 use function mb_strtolower;
 
 /**
- * Controller for database privileges
+ * com.example.devoir_java2.Controller for database privileges
  */
 class PrivilegesController extends AbstractController
 {

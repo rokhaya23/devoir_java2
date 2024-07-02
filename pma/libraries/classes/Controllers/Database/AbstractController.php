@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace PhpMyAdmin\Controllers\Database;
 
-use PhpMyAdmin\Controllers\AbstractController as Controller;
+use PhpMyAdmin\Controllers\AbstractController as com.example.devoir_java2.Controller;
 use PhpMyAdmin\ResponseRenderer;
 use PhpMyAdmin\Template;
 
-abstract class AbstractController extends Controller
+abstract class AbstractController extends com.example.devoir_java2.Controller
 {
     /** @var string */
     protected $db;

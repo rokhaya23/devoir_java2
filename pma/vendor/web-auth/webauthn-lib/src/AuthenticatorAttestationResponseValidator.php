@@ -298,8 +298,8 @@ class AuthenticatorAttestationResponseValidator
             return;
         }
 
-        //The MDS Repository is mandatory here
-        Assertion::notNull($this->metadataStatementRepository, 'The Metadata Statement Repository is mandatory when requesting attestation objects.');
+        //The MDS com.example.devoir_java2.Repository is mandatory here
+        Assertion::notNull($this->metadataStatementRepository, 'The Metadata Statement com.example.devoir_java2.Repository is mandatory when requesting attestation objects.');
         $metadataStatement = $this->metadataStatementRepository->findOneByAAGUID($aaguid);
 
         // We check the last status report

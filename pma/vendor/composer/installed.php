@@ -73,11 +73,11 @@
             'reference' => '42060ed45344789fb9f21f9f1864fc47b9e3507b',
             'dev_requirement' => false,
         ),
-        'fig/http-message-util' => array(
+        'fig/http-message-com.example.devoir_java2.util' => array(
             'pretty_version' => '1.1.5',
             'version' => '1.1.5.0',
             'type' => 'library',
-            'install_path' => __DIR__ . '/../fig/http-message-util',
+            'install_path' => __DIR__ . '/../fig/http-message-com.example.devoir_java2.util',
             'aliases' => array(),
             'reference' => '9d94dc0154230ac39e5bf89398b324a86f63f765',
             'dev_requirement' => false,
