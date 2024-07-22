@@ -1,16 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
-
 <?import javafx.scene.control.Button?>
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.example.devoir_java2.HelloController">
-    <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
-    </padding>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.CubicCurve?>
+<?import javafx.scene.text.Font?>
 
-    <Label fx:id="welcomeText"/>
-    <Button text="Hello!" onAction="#onHelloButtonClick"/>
-</VBox>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="601.0" prefWidth="715.0" xmlns="http://javafx.com/javafx/20.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.devoir_java2.HelloController">
+   <children>
+      <Pane layoutX="82.0" layoutY="5.0" prefHeight="592.0" prefWidth="533.0" style="-fx-background-color: #F3E5F5;">
+         <children>
+            <ImageView cache="true" fitHeight="306.0" fitWidth="439.0" layoutX="33.0" nodeOrientation="RIGHT_TO_LEFT" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../images/imag-removebg-preview.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="120.0" layoutY="339.0" prefHeight="35.0" prefWidth="317.0" text="All your needs in one app !" textAlignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Label>
+            <Label layoutX="146.0" layoutY="371.0" prefHeight="17.0" prefWidth="246.0" text="Enjoy your favorite cuisiness from the best " />
+            <Label layoutX="151.0" layoutY="388.0" text="restaurants, shop from local stores and go" />
+            <Label layoutX="179.0" layoutY="405.0" text="anywhere you want with ease" />
+            <CubicCurve controlX1="56.0" controlX2="50.0" controlY1="-112.0" controlY2="100.0" endX="315.0" endY="-47.0" fill="#f3e5f5" layoutX="218.0" layoutY="322.0" startX="-218.0" startY="-13.0" stroke="#141414" />
+            <Button layoutX="201.0" layoutY="459.0" mnemonicParsing="false" onAction="#signup" prefHeight="25.0" prefWidth="140.0" style="-fx-background-color: purple; -fx-border-radius: 10;" text="S'Inscrire" textFill="WHITE" />
+            <Button layoutX="201.0" layoutY="507.0" mnemonicParsing="false" onAction="#signin" prefHeight="25.0" prefWidth="140.0" style="-fx-background-color: white; -fx-border-color: purple; -fx-border-radius: 10;" text="Se Connecter" textFill="PURPLE" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

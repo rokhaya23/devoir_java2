@@ -53,22 +53,31 @@ public class TrajetRepository {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         try {
             entityManager.getTransaction().begin();
+
+            // Trouver l'entité Trajet existante dans la base de données
             Trajet trajetBd = entityManager.find(Trajet.class, trajet.getId());
             if (trajetBd != null) {
+                // Mettre à jour les champs nécessaires
                 trajetBd.setDateDepart(trajet.getDateDepart());
                 trajetBd.setVilleDepart(trajet.getVilleDepart());
                 trajetBd.setVilleArrivee(trajet.getVilleArrivee());
                 trajetBd.setUser(trajet.getUser()); // Mettre à jour l'utilisateur associé si nécessaire
-                // Ajouter d'autres champs à mettre à jour si nécessaire
+
+                // Mettre à jour le nombre de places
+                trajetBd.setNbPlaces(trajet.getNbPlaces());
+
+                // Synchroniser les modifications avec la base de données
                 entityManager.merge(trajetBd);
                 entityManager.getTransaction().commit();
             } else {
                 entityManager.getTransaction().rollback();
+                throw new IllegalArgumentException("Trajet not found");
             }
         } catch (Exception e) {
             if (entityManager.getTransaction().isActive()) {
                 entityManager.getTransaction().rollback();
             }
+            e.printStackTrace(); // Afficher l'exception pour le débogage
             throw e;
         } finally {
             entityManager.close();

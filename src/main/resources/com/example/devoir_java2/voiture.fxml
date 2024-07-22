@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="627.0" prefWidth="756.0" xmlns="http://javafx.com/javafx/20.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.devoir_java2.Controller.VehiculeController">
+    <children>
+        <TableView fx:id="tableFX" layoutX="52.0" layoutY="177.0" onMouseClicked="#charge" prefHeight="236.0" prefWidth="671.0">
+            <columns>
+            <TableColumn fx:id="id" prefWidth="64.0" text="id" />
+                <TableColumn fx:id="tmatricule" prefWidth="126.0" text="Immatriculation" />
+                <TableColumn fx:id="tmarque" prefWidth="121.0" text="Marque" />
+                <TableColumn fx:id="tmodele" prefWidth="117.0" text="Model" />
+                <TableColumn fx:id="tchauffeur" prefWidth="117.0" text="Chauffeur" />
+                <TableColumn fx:id="tnombre" minWidth="0.0" prefWidth="125.0" text="Nombre de place" />
+                <TableColumn fx:id="toption" prefWidth="117.0" text="Option" />
+            </columns>
+        </TableView>
+        <Label layoutX="52.0" layoutY="25.0" text="Liste des Voitures">
+            <font>
+                <Font name="System Bold" size="22.0" />
+            </font>
+        </Label>
+        <Button layoutX="53.0" layoutY="100.0" mnemonicParsing="false" onAction="#voitureform" prefHeight="25.0" prefWidth="135.0" style="-fx-background-color: purple;" text="Ajouter une voiture" textFill="WHITE" />
+    </children>
+</AnchorPane>

@@ -49,6 +49,17 @@ public class RoleRepository {
         }
     }
 
+    public Role findByName(String name) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        try {
+            return entityManager.createQuery("SELECT r FROM Role r WHERE r.name = :name", Role.class)
+                    .setParameter("name", name)
+                    .getSingleResult();
+        } finally {
+            entityManager.close();
+        }
+    }
+
     public void updateRole(Role role) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         try {

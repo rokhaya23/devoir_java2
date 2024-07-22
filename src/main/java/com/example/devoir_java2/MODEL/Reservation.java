@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -19,17 +20,31 @@ public class Reservation {
     @Column(name = "id")
     private Long id;
 
-    private Date dateReservation;
+    private String villeDepart;
+
+    private String villeArrivee;
+
+    private LocalDateTime dateReservation;
 
     private int nbPlaces;
+
+    private String statut;
+
 
     @ManyToOne
     @JoinColumn(name = "id_client")
     private User client;
 
-    @ManyToOne
-    @JoinColumn(name = "id_trajet")
-    private Trajet trajet;
-
-
+    @Override
+    public String toString() {
+        return "Reservation{" +
+                "id=" + id +
+                ", villeDepart='" + villeDepart + '\'' +
+                ", villeArrivee='" + villeArrivee + '\'' +
+                ", dateReservation=" + dateReservation +
+                ", nbPlaces=" + nbPlaces +
+                ", statut='" + statut + '\'' +
+                ", client=" + client +
+                '}';
+    }
 }

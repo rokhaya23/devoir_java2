@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -26,12 +28,19 @@ public class Trajet {
 
     private String villeArrivee;
 
+    private LocalDateTime dateReservation;
+
+    private int nbPlaces;
+
     @ManyToOne
     @JoinColumn(name = "id_user")
     private User user;
 
-    @OneToMany(mappedBy = "trajet")
-    private List<Reservation> reservations;
+    public User getUser() {
+        return user;
+    }
 
-
+    public void setUser(User user) {
+        this.user = user;
+    }
 }

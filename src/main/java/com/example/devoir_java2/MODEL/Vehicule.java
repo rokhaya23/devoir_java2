@@ -22,9 +22,18 @@ public class Vehicule {
 
     private String modele;
 
-    @ManyToOne
-    @JoinColumn(name = "id_user")
-    private User user;
+    private int nbres_place;
 
+    @ManyToOne
+    @JoinColumn(name = "chauffeur_id")
+    private User chauffeur; // Ajout de la relation avec l'utilisateur (chauffeur)
+
+    public User getChauffeur() {
+        return chauffeur;
+    }
+
+    public void setChauffeur(User chauffeur) {
+        this.chauffeur = chauffeur;
+    }
 
 }

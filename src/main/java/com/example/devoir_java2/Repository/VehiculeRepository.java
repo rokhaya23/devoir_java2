@@ -6,6 +6,8 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class VehiculeRepository {
 
@@ -50,6 +52,10 @@ public class VehiculeRepository {
     }
 
     public void updateVehicule(Vehicule vehicule) {
+        if (vehicule == null || vehicule.getId() == null) {
+            throw new IllegalArgumentException("Le véhicule ou l'ID du véhicule ne peut pas être nul.");
+        }
+
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         try {
             entityManager.getTransaction().begin();
@@ -58,16 +64,18 @@ public class VehiculeRepository {
                 vehiculeBd.setImmatriculation(vehicule.getImmatriculation());
                 vehiculeBd.setMarque(vehicule.getMarque());
                 vehiculeBd.setModele(vehicule.getModele());
-                vehiculeBd.setUser(vehicule.getUser()); // Mettre à jour l'utilisateur associé si nécessaire
+                vehiculeBd.setNbres_place(vehicule.getNbres_place());  // Assurez-vous que cette ligne est incluse si vous mettez à jour aussi le nombre de places.
                 entityManager.merge(vehiculeBd);
                 entityManager.getTransaction().commit();
             } else {
                 entityManager.getTransaction().rollback();
+                throw new RuntimeException("Véhicule non trouvé pour l'ID: " + vehicule.getId());
             }
         } catch (Exception e) {
             if (entityManager.getTransaction().isActive()) {
                 entityManager.getTransaction().rollback();
             }
+            Logger.getLogger(VehiculeRepository.class.getName()).log(Level.SEVERE, "Erreur lors de la mise à jour du véhicule", e);
             throw e;
         } finally {
             entityManager.close();
