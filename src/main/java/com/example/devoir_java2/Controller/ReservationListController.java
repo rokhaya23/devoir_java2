@@ -1,8 +1,12 @@
 package com.example.devoir_java2.Controller;
 
+import com.example.devoir_java2.EmailUtil;
+import com.example.devoir_java2.JPAUTIL;
 import com.example.devoir_java2.MODEL.Reservation;
 import com.example.devoir_java2.MODEL.User;
 import com.example.devoir_java2.Repository.ReservationRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -11,11 +15,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.util.Callback;
 
+import javax.mail.MessagingException;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -28,6 +34,9 @@ public class ReservationListController implements Initializable {
 
     @FXML
     private TableView<Reservation> tableFX;
+
+    @FXML
+    private TextField search;
 
     @FXML
     private TableColumn<Reservation, String> tdepart;
@@ -132,21 +141,63 @@ public class ReservationListController implements Initializable {
                     setText(null);
                 } else {
                     Reservation reservation = getTableRow().getItem();
-                    // Disable buttons if the reservation is already confirmed or rejected
-                    if ("Confirmé".equals(reservation.getStatut()) || "Refusé".equals(reservation.getStatut())) {
-                        setGraphic(null);
+                    LocalDateTime now = LocalDateTime.now();
+                    boolean isDatePassed = reservation.getDateReservation().isBefore(now);
+
+                    // Masquer les boutons si la date est passée ou si le statut est déjà confirmé ou refusé
+                    confirmButton.setVisible(!isDatePassed && !"Confirmé".equals(reservation.getStatut()) && !"Refusé".equals(reservation.getStatut()));
+                    rejectButton.setVisible(!isDatePassed && !"Confirmé".equals(reservation.getStatut()) && !"Refusé".equals(reservation.getStatut()));
+
+                    // Surligner la ligne entière en rouge si la date est passée
+                    if (isDatePassed) {
+                        getTableRow().setStyle("-fx-background-color: #FFEBEE;"); // Rouge clair
                     } else {
-                        setGraphic(getGraphic());
+                        getTableRow().setStyle(""); // Style par défaut
                     }
+
+                    setGraphic(getGraphic());
+                    setText(null);
                 }
             }
         };
         return cell;
     };
 
+    @FXML
+    void search(KeyEvent event) {
+        EntityManagerFactory entityManagerFactory = JPAUTIL.getEntityManagerFactory();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        ReservationRepository reservationRepository = new ReservationRepository();
+        try {
+            List<Reservation> list = reservationRepository.searchReservation(search.getText());
+            ObservableList<Reservation> reservationObservableList = FXCollections.observableArrayList(list);
+            tdepart.setCellValueFactory(new PropertyValueFactory<>("villeDepart"));
+            tarriver.setCellValueFactory(new PropertyValueFactory<>("villeArrivee"));
+            tdate.setCellValueFactory(new PropertyValueFactory<>("dateReservation"));
+            tableFX.setItems(reservationObservableList);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            entityManager.close();
+        }
+    }
+
     private void updateReservationStatus(Reservation reservation, String status) {
         reservation.setStatut(status);
         reservationRepository.updateReservation(reservation);
+        // Envoyer un e-mail au client
+        String clientEmail = reservation.getClient().getEmail(); // Supposons que Reservation a une référence au client
+        String subject = "Mise à jour du statut de votre réservation";
+        String messageContent = "Cher(e) " + reservation.getClient().getName() + ",\n\n" +
+                "Votre réservation de " + reservation.getVilleDepart() + " à " + reservation.getVilleArrivee() +
+                " a été " + status + ".\n\n" +
+                "Merci d'avoir utilisé notre service.\n\n" +
+                "Cordialement,\n" +
+                "L'équipe de SenAuto";
+
+        EmailUtil.sendEmail(clientEmail, subject, messageContent);
+
+
         affiche();
     }
 }

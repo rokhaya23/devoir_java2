@@ -1,5 +1,6 @@
 package com.example.devoir_java2.Controller;
 
+import com.example.devoir_java2.EmailUtil;
 import com.example.devoir_java2.MODEL.Role;
 import com.example.devoir_java2.MODEL.User;
 import com.example.devoir_java2.Repository.RoleRepository;
@@ -84,9 +85,20 @@ public class ChauffeurformController implements Initializable {
         if (!idField.getText().isEmpty()) {
             chauffeur.setId(Long.parseLong(idField.getText()));
         }
+        sendRegistrationEmail(chauffeur);
         return chauffeur;
     }
 
+    private void sendRegistrationEmail(User user) {
+        String subject = "Confirmation d'inscription";
+        String messageBody = "Bonjour " + user.getName() + ",\n\n" +
+                "Vous avez été inscrit sur notre plateforme.\n\n" +
+                "Voici vos identifiants :\n" +
+                "Email : " + user.getEmail() + "\n" +
+                "Mot de passe : " + user.getPassword() + "\n\n" +
+                "Cordialement,\nL'équipe de SenAuto";
+        EmailUtil.sendEmail(user.getEmail(), subject, messageBody);
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

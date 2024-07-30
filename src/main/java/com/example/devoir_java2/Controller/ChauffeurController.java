@@ -1,8 +1,13 @@
 package com.example.devoir_java2.Controller;
 
+import com.example.devoir_java2.JPAUTIL;
+import com.example.devoir_java2.MODEL.Trajet;
 import com.example.devoir_java2.MODEL.User;
+import com.example.devoir_java2.Repository.TrajetRepository;
 import com.example.devoir_java2.Repository.UserRepository;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -13,6 +18,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.util.Callback;
@@ -30,6 +36,9 @@ public class ChauffeurController implements Initializable {
 
     @FXML
     private TableView<User> tableFX;
+
+    @FXML
+    private TextField search;
 
     @FXML
     private TableColumn<User, Long> id;
@@ -172,4 +181,25 @@ public class ChauffeurController implements Initializable {
         };
         return cell;
     };
+
+    @FXML
+    void search(KeyEvent event) {
+        EntityManagerFactory entityManagerFactory = JPAUTIL.getEntityManagerFactory();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        UserRepository userRepository = new UserRepository();
+        try {
+            List<User> list = userRepository.searchUser(search.getText());
+            ObservableList<User> userObservableList = FXCollections.observableArrayList(list);
+            username.setCellValueFactory(new PropertyValueFactory<>("name"));
+            email.setCellValueFactory(new PropertyValueFactory<>("email"));
+            password.setCellValueFactory(new PropertyValueFactory<>("password"));
+            telephone.setCellValueFactory(new PropertyValueFactory<>("telephone"));
+            role.setCellValueFactory(new PropertyValueFactory<>("role"));
+            tableFX.setItems(userObservableList);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            entityManager.close();
+        }
+    }
 }

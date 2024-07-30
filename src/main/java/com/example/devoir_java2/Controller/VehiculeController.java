@@ -1,9 +1,14 @@
 package com.example.devoir_java2.Controller;
 
+import com.example.devoir_java2.JPAUTIL;
+import com.example.devoir_java2.MODEL.Trajet;
 import com.example.devoir_java2.MODEL.User;
 import com.example.devoir_java2.MODEL.Vehicule;
+import com.example.devoir_java2.Repository.TrajetRepository;
 import com.example.devoir_java2.Repository.VehiculeRepository;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -14,6 +19,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.util.Callback;
@@ -33,6 +39,9 @@ public class VehiculeController implements Initializable {
 
     @FXML
     private TableColumn<Vehicule, Long> id;
+
+    @FXML
+    private TextField search;
 
     @FXML
     private TableColumn<Vehicule, String> tmatricule;
@@ -191,4 +200,23 @@ public class VehiculeController implements Initializable {
         };
         return cell;
     };
+
+    @FXML
+    void search(KeyEvent event) {
+        EntityManagerFactory entityManagerFactory = JPAUTIL.getEntityManagerFactory();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        VehiculeRepository vehiculeRepository = new VehiculeRepository();
+        try {
+            List<Vehicule> list = vehiculeRepository.searchVehicule(search.getText());
+            ObservableList<Vehicule> vehiculeObservableList = FXCollections.observableArrayList(list);
+            tmatricule.setCellValueFactory(new PropertyValueFactory<>("immatriculation"));
+            tmarque.setCellValueFactory(new PropertyValueFactory<>("marque"));
+            tmodele.setCellValueFactory(new PropertyValueFactory<>("modele"));
+            tableFX.setItems(vehiculeObservableList);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            entityManager.close();
+        }
+    }
 }

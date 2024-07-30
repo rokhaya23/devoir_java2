@@ -4,18 +4,20 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="627.0" prefWidth="756.0" xmlns="http://javafx.com/javafx/20.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.devoir_java2.Controller.TrajetController">
     <children>
-        <TableView fx:id="tableFX" layoutX="52.0" layoutY="177.0" onMouseClicked="#charge" prefHeight="236.0" prefWidth="671.0">
+        <TableView fx:id="tableFX" layoutX="52.0" layoutY="224.0" onMouseClicked="#charge" prefHeight="236.0" prefWidth="671.0">
             <columns>
                 <TableColumn fx:id="tdepart" prefWidth="144.0" text="Lieu de départ" />
                 <TableColumn fx:id="tarriver" prefWidth="111.0" text="Lieu d'arrivé" />
                 <TableColumn fx:id="tdate" prefWidth="124.0" text="Date" />
                 <TableColumn fx:id="tnombre" prefWidth="142.0" text="Nombre de personne" />
                 <TableColumn fx:id="tchauffeur" prefWidth="117.0" text="Chauffeur" />
+                <TableColumn fx:id="ttarif" prefWidth="117.0" text="Tarif" />
                 <TableColumn fx:id="toption" prefWidth="117.0" text="Option" />
             </columns>
         </TableView>
@@ -25,5 +27,6 @@
             </font>
         </Label>
         <Button fx:id="ajouterTrajetButton" layoutX="53.0" layoutY="100.0" mnemonicParsing="false" onAction="#trajetform" prefHeight="25.0" prefWidth="135.0" style="-fx-background-color: purple;" text="Ajouter un Trajet" textFill="WHITE" />
+      <TextField fx:id="search" layoutX="507.0" layoutY="157.0" onKeyReleased="#search" prefHeight="25.0" prefWidth="216.0" promptText="Search" />
     </children>
 </AnchorPane>

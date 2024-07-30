@@ -1,5 +1,6 @@
 package com.example.devoir_java2.Controller;
 
+import com.example.devoir_java2.EmailUtil;
 import com.example.devoir_java2.MODEL.Role;
 import com.example.devoir_java2.MODEL.User;
 import com.example.devoir_java2.Repository.RoleRepository;
@@ -74,6 +75,16 @@ public class RegisterController implements Initializable {
         // Vérifier si l'utilisateur est enregistré avec succès
         if (isUserSaved) {
             System.out.println("Inscription réussie!");
+
+            // Envoyer un e-mail de confirmation
+            String subject = "Confirmation d'inscription";
+            String messageBody = "Bonjour " + name + ",\n\n" +
+                    "Merci de vous être inscrit sur notre plateforme.\n\n" +
+                    "Voici vos identifiants :\n" +
+                    "Email : " + email + "\n" +
+                    "Mot de passe : " + password + "\n\n" +
+                    "Cordialement,\nL'équipe de SenAuto";
+            EmailUtil.sendEmail(email, subject, messageBody);
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/devoir_java2/principal.fxml"));
             Parent mainPage = loader.load();

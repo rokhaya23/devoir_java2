@@ -42,7 +42,7 @@ public class LoginController implements Initializable {
         User user = userRepository.getUserByEmailAndPassword(email, password);
 
         if (user != null) {
-            System.out.println("Connexion réussie! Utilisateur: " + user.getName() + ", Rôle: " + user.getRole().getName());
+            UserSession.getInstance().setLoggedInUser(user);
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/devoir_java2/principal.fxml"));
             Parent mainPage = loader.load();
@@ -78,6 +78,5 @@ public class LoginController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        this.userRepository = new UserRepository();
     }
 }

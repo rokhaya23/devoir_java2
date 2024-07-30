@@ -22,7 +22,6 @@ public class Trajet {
     @Column(name = "id")
     private Long id;
 
-    private Date dateDepart;
 
     private String villeDepart;
 
@@ -31,6 +30,7 @@ public class Trajet {
     private LocalDateTime dateReservation;
 
     private int nbPlaces;
+    private int tarif;
 
     @ManyToOne
     @JoinColumn(name = "id_user")

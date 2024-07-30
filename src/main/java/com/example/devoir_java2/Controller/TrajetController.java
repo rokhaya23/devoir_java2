@@ -1,9 +1,12 @@
 package com.example.devoir_java2.Controller;
 
+import com.example.devoir_java2.JPAUTIL;
 import com.example.devoir_java2.MODEL.Trajet;
 import com.example.devoir_java2.MODEL.User;
 import com.example.devoir_java2.Repository.TrajetRepository;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -14,6 +17,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.util.Callback;
@@ -40,6 +44,9 @@ public class TrajetController implements Initializable {
     private TableColumn<Trajet, LocalDateTime> tdate;
 
     @FXML
+    private TableColumn<Trajet, String> ttarif;
+
+    @FXML
     private TableColumn<Trajet, String> tdepart;
 
     @FXML
@@ -54,12 +61,14 @@ public class TrajetController implements Initializable {
     @FXML
     private Button ajouterTrajetButton;
 
+    @FXML
+    private TextField search;
+
     private Trajet selectedTrajet;
 
     @FXML
     void charge(MouseEvent event) {
-        selectedTrajet = tableFX.getSelectionModel().getSelectedItem();
-        affiche();
+
     }
 
     @FXML
@@ -139,9 +148,28 @@ public class TrajetController implements Initializable {
 
         tdepart.setCellValueFactory(new PropertyValueFactory<>("villeDepart"));
         tarriver.setCellValueFactory(new PropertyValueFactory<>("villeArrivee"));
-        tdate.setCellValueFactory(new PropertyValueFactory<>("dateReservation"));
         tnombre.setCellValueFactory(new PropertyValueFactory<>("nbPlaces"));
+        ttarif.setCellValueFactory(new PropertyValueFactory<>("tarif"));
         toption.setCellFactory(cellFactory);
+        tdate.setCellFactory(column -> new TableCell<Trajet, LocalDateTime>() {
+            @Override
+            protected void updateItem(LocalDateTime item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                    setStyle("");
+                } else {
+                    setText(item.toString());
+                    if (item.isBefore(LocalDateTime.now())) {
+                        setTextFill(javafx.scene.paint.Color.RED);
+                        getTableRow().setStyle("-fx-background-color: #FFEBEE;"); // Surligner la ligne en rouge
+                    } else {
+                        setTextFill(javafx.scene.paint.Color.BLACK);
+                        getTableRow().setStyle("");
+                    }
+                }
+            }
+        });
         // Configure la cellule personnalisée pour la colonne du chauffeur
         tchauffeur.setCellFactory(column -> new TableCell<Trajet, String>() {
             @Override
@@ -164,6 +192,7 @@ public class TrajetController implements Initializable {
         tdepart.setCellValueFactory(new PropertyValueFactory<>("villeDepart"));
         tarriver.setCellValueFactory(new PropertyValueFactory<>("villeArrivee"));
         tdate.setCellValueFactory(new PropertyValueFactory<>("dateReservation"));
+        ttarif.setCellValueFactory(new PropertyValueFactory<>("tarif"));
         tnombre.setCellValueFactory(new PropertyValueFactory<>("nbPlaces"));
         toption.setCellFactory(cellFactory);
 
@@ -173,6 +202,34 @@ public class TrajetController implements Initializable {
 
     private final Callback<TableColumn<Trajet, Void>, TableCell<Trajet, Void>> cellFactory = (TableColumn<Trajet, Void> param) -> {
         final TableCell<Trajet, Void> cell = new TableCell<>() {
+            private final FontAwesomeIcon editIcon = new FontAwesomeIcon();
+            private final FontAwesomeIcon deleteIcon = new FontAwesomeIcon();
+
+            {
+                editIcon.setGlyphName("PENCIL_SQUARE");
+                deleteIcon.setGlyphName("TRASH");
+
+                editIcon.setStyle("-fx-cursor: hand; -glyph-size:40px; -fx-fill:#00E676;");
+                deleteIcon.setStyle("-fx-cursor: hand; -glyph-size:40px; -fx-fill:#ff1744;");
+
+                editIcon.setOnMouseClicked((MouseEvent event) -> {
+                    Trajet trajet = getTableView().getItems().get(getIndex());
+                    if (!isDatePassed(trajet)) {
+                        selectedTrajet = trajet;
+                        trajetform(null);
+                    }
+                });
+
+                deleteIcon.setOnMouseClicked((MouseEvent event) -> {
+                    Trajet trajet = getTableView().getItems().get(getIndex());
+                    if (!isDatePassed(trajet)) {
+                        selectedTrajet = trajet;
+                        trajetRepository.deleteTrajet(selectedTrajet.getId());
+                        affiche();
+                    }
+                });
+            }
+
             @Override
             protected void updateItem(Void item, boolean empty) {
                 super.updateItem(item, empty);
@@ -180,25 +237,12 @@ public class TrajetController implements Initializable {
                     setGraphic(null);
                     setText(null);
                 } else {
-                    FontAwesomeIcon editIcon = new FontAwesomeIcon();
-                    FontAwesomeIcon deleteIcon = new FontAwesomeIcon();
+                    Trajet trajet = getTableView().getItems().get(getIndex());
+                    boolean isDatePassed = isDatePassed(trajet);
 
-                    editIcon.setGlyphName("PENCIL_SQUARE");
-                    deleteIcon.setGlyphName("TRASH");
-
-                    editIcon.setStyle("-fx-cursor: hand ; -glyph-size:40px; -fx-fill:#00E676;");
-                    deleteIcon.setStyle("-fx-cursor: hand ; -glyph-size:40px; -fx-fill:#ff1744;");
-
-                    editIcon.setOnMouseClicked((MouseEvent event) -> {
-                        selectedTrajet = tableFX.getSelectionModel().getSelectedItem();
-                        trajetform(null);
-                    });
-
-                    deleteIcon.setOnMouseClicked((MouseEvent event) -> {
-                        selectedTrajet = tableFX.getSelectionModel().getSelectedItem();
-                        trajetRepository.deleteTrajet(selectedTrajet.getId());
-                        affiche();
-                    });
+                    // Disable the icons if the date has passed
+                    editIcon.setVisible(!isDatePassed);
+                    deleteIcon.setVisible(!isDatePassed);
 
                     HBox managebtn = new HBox(editIcon, deleteIcon);
                     managebtn.setStyle("-fx-alignment:center");
@@ -206,11 +250,33 @@ public class TrajetController implements Initializable {
                     HBox.setMargin(editIcon, new Insets(2, 3, 0, 2));
 
                     setGraphic(managebtn);
-
                     setText(null);
                 }
+            }
+
+            private boolean isDatePassed(Trajet trajet) {
+                return trajet.getDateReservation().isBefore(LocalDateTime.now());
             }
         };
         return cell;
     };
+
+    @FXML
+    void search(KeyEvent event) {
+        EntityManagerFactory entityManagerFactory = JPAUTIL.getEntityManagerFactory();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        TrajetRepository trajetRepository = new TrajetRepository();
+        try {
+            List<Trajet> list = trajetRepository.searchTrajet(search.getText());
+            ObservableList<Trajet> trajetObservableList = FXCollections.observableArrayList(list);
+            tdepart.setCellValueFactory(new PropertyValueFactory<>("villeDepart"));
+            tarriver.setCellValueFactory(new PropertyValueFactory<>("villeArrivee"));
+            tdate.setCellValueFactory(new PropertyValueFactory<>("dateReservation"));
+            tableFX.setItems(trajetObservableList);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            entityManager.close();
+        }
+    }
 }

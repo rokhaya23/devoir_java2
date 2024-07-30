@@ -181,6 +181,9 @@ public class PrincipalController {
     @FXML
     private void logout(MouseEvent event) {
         try {
+            // Nettoyer la session utilisateur
+            UserSession.getInstance().cleanUserSession();
+
             // Charger la scène de connexion
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/devoir_java2/login.fxml")); // Chemin vers votre page de connexion
             Parent loginPage = loader.load();

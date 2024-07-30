@@ -32,6 +32,9 @@ public class TrajetFormController implements Initializable {
     private TextField arriveeField;
 
     @FXML
+    private TextField tarifField;
+
+    @FXML
     private TextField idField;
 
     @FXML
@@ -63,6 +66,7 @@ public class TrajetFormController implements Initializable {
             idField.setText(trajet.getId() != null ? trajet.getId().toString() : "");  // Met à jour l'ID dans le TextField
             departField.setText(trajet.getVilleDepart());
             arriveeField.setText(trajet.getVilleArrivee());
+            tarifField.setText(String.valueOf(trajet.getTarif())); // Conversion en chaîne de caractères
             dateField.setValue(trajet.getDateReservation().toLocalDate());
             nombreField.getValueFactory().setValue(trajet.getNbPlaces());
             hourSpinner.getValueFactory().setValue(trajet.getDateReservation().getHour());
@@ -84,6 +88,12 @@ public class TrajetFormController implements Initializable {
         }
         trajet.setVilleDepart(departField.getText());
         trajet.setVilleArrivee(arriveeField.getText());
+        try {
+            trajet.setTarif(Integer.parseInt(tarifField.getText())); // Conversion en int
+        } catch (NumberFormatException e) {
+            showAlert("Erreur de saisie", "Veuillez saisir un tarif valide.");
+            return null; // Retourner null ou gérer l'erreur comme vous le souhaitez
+        }
         trajet.setDateReservation(getReservationDateTime());
         trajet.setNbPlaces(nombreField.getValue());
 
@@ -96,6 +106,14 @@ public class TrajetFormController implements Initializable {
         return trajet;
     }
 
+
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

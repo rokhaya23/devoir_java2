@@ -1,5 +1,6 @@
 package com.example.devoir_java2.Repository;
 
+import com.example.devoir_java2.MODEL.Reservation;
 import com.example.devoir_java2.MODEL.Vehicule;
 import com.example.devoir_java2.JPAUTIL;
 import jakarta.persistence.EntityManager;
@@ -101,6 +102,16 @@ public class VehiculeRepository {
         } finally {
             entityManager.close();
         }
+    }
+
+    public List<Vehicule> searchVehicule(String search){
+        EntityManagerFactory entityManagerFactory = JPAUTIL.getEntityManagerFactory();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
+        List<Vehicule> vehicules = entityManager.createQuery("from Vehicule v where v.marque like :search or v.modele like :search or v.immatriculation like :search", Vehicule.class).setParameter("search", "%"+search+"%").getResultList();
+        entityManager.getTransaction().commit();
+        entityManager.close();
+        return vehicules;
     }
 
     // Fermer le EntityManagerFactory lorsque vous avez fini d'utiliser le VehiculeRepository

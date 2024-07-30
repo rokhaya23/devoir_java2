@@ -1,5 +1,6 @@
 package com.example.devoir_java2.Controller;
 
+import com.example.devoir_java2.EmailUtil;
 import com.example.devoir_java2.MODEL.AppContext;
 import com.example.devoir_java2.MODEL.Reservation;
 import com.example.devoir_java2.MODEL.User;
@@ -40,8 +41,7 @@ public class ReservationFormController implements Initializable {
     @FXML
     private Spinner<Integer> nombreField;
 
-    private User currentUser; // Assurez-vous d'initialiser cet utilisateur avec l'utilisateur connecté
-
+    private User currentUser;
 
     public void setReservationRepository(ReservationRepository reservationRepository) {
         this.reservationRepository = reservationRepository;
@@ -50,7 +50,6 @@ public class ReservationFormController implements Initializable {
     public void setCurrentUser(User user) {
         this.currentUser = user;
     }
-
 
     public void setReservation(Reservation reservation) {
         this.reservation = reservation;
@@ -90,6 +89,7 @@ public class ReservationFormController implements Initializable {
         if (!idField.getText().isEmpty()) {
             reservation.setId(Long.parseLong(idField.getText()));
         }
+        sendReservationEmail(reservation);
         return reservation;
     }
 
@@ -129,14 +129,28 @@ public class ReservationFormController implements Initializable {
         alert.showAndWait();
     }
 
+    private void sendReservationEmail(Reservation reservation) {
+        String toEmail = reservation.getClient().getEmail();
+        String subject = "Confirmation de réservation";
+        String body = "Cher(e) " + reservation.getClient().getName() + ",\n\n" +
+                "Votre réservation a été effectuée avec succès. Voici les détails de votre réservation :\n\n" +
+                "Départ : " + reservation.getVilleDepart() + "\n" +
+                "Arrivée : " + reservation.getVilleArrivee() + "\n" +
+                "Date et heure : " + reservation.getDateReservation().toString() + "\n" +
+                "Nombre de places : " + reservation.getNbPlaces() + "\n" +
+                "Statut : " + reservation.getStatut() + "\n\n" +
+                "Merci d'avoir utilisé notre service.\n" +
+                "Cordialement,\n" +
+                "Votre équipe de réservation.";
+
+        EmailUtil.sendEmail(toEmail, subject, body);
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        this.reservationRepository=new ReservationRepository();
-
+        this.reservationRepository = new ReservationRepository();
         nombreField.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 20, 1));
         hourSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23, LocalTime.now().getHour()));
         minuteSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59, LocalTime.now().getMinute()));
-
     }
 }

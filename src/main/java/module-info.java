@@ -8,6 +8,7 @@ module com.example.devoir_java2 {
     requires org.hibernate.orm.core;
     requires org.hibernate.validator;
     requires fontawesomefx;
+    requires java.mail;
 
 
     opens com.example.devoir_java2 to javafx.fxml;

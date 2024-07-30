@@ -112,4 +112,41 @@ public class UserRepository {
         }
         return users;
     }
+    public Long countUtilisateur(){
+        EntityManagerFactory entityManagerFactory = JPAUTIL.getEntityManagerFactory();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
+        Long utilisateur = entityManager.createQuery("select count(u) from User u", Long.class).getSingleResult();
+        entityManager.getTransaction().commit();
+        entityManager.close();
+        return utilisateur;
+    }
+    public Long countUtilisateurConducteur(){
+        EntityManagerFactory entityManagerFactory = JPAUTIL.getEntityManagerFactory();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
+        Long utilisateur = entityManager.createQuery("select count(u) from User u where u.role.name='Chauffeur'", Long.class).getSingleResult();
+        entityManager.getTransaction().commit();
+        entityManager.close();
+        return utilisateur;
+    }
+    public Long countUtilisateurPassager(){
+        EntityManagerFactory entityManagerFactory = JPAUTIL.getEntityManagerFactory();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
+        Long utilisateur = entityManager.createQuery("select count(u) from User u where u.role.name='Client'", Long.class).getSingleResult();
+        entityManager.getTransaction().commit();
+        entityManager.close();
+        return utilisateur;
+    }
+
+    public List<User> searchUser(String search){
+        EntityManagerFactory entityManagerFactory = JPAUTIL.getEntityManagerFactory();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
+        List<User> user = entityManager.createQuery("from User u where u.name like :search or u.email like :search or u.telephone like :search", User.class).setParameter("search", "%"+search+"%").getResultList();
+        entityManager.getTransaction().commit();
+        entityManager.close();
+        return user;
+    }
 }

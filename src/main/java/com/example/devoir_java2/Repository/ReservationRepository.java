@@ -2,6 +2,7 @@ package com.example.devoir_java2.Repository;
 
 import com.example.devoir_java2.MODEL.Reservation;
 import com.example.devoir_java2.JPAUTIL;
+import com.example.devoir_java2.MODEL.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.TypedQuery;
@@ -41,16 +42,26 @@ public class ReservationRepository {
         }
     }
 
-    public List<Reservation> getReservationsByUserId(Long id) {
+    public List<Reservation> getReservationsByUserId(Long userId) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         try {
+            // Assurez-vous que la colonne "client_id" ou le champ associé est correct
             TypedQuery<Reservation> query = entityManager.createQuery(
-                    "SELECT r FROM Reservation r WHERE r.id = :id", Reservation.class);
-            query.setParameter("id", id);
+                    "SELECT r FROM Reservation r WHERE r.client.id = :userId", Reservation.class);
+            query.setParameter("userId", userId);
             return query.getResultList();
         } finally {
             entityManager.close();
         }
+    }
+    public Long countReservation(){
+        EntityManagerFactory entityManagerFactory = JPAUTIL.getEntityManagerFactory();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
+        Long resservation = entityManager.createQuery("select count(u) from Reservation u", Long.class).getSingleResult();
+        entityManager.getTransaction().commit();
+        entityManager.close();
+        return resservation;
     }
 
     public void updateReservation(Reservation reservation) {
@@ -104,6 +115,16 @@ public class ReservationRepository {
         } finally {
             entityManager.close();
         }
+    }
+
+    public List<Reservation> searchReservation(String search){
+        EntityManagerFactory entityManagerFactory = JPAUTIL.getEntityManagerFactory();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
+        List<Reservation> reservations = entityManager.createQuery("from Reservation r where r.villeDepart like :search or r.villeArrivee like :search", Reservation.class).setParameter("search", "%"+search+"%").getResultList();
+        entityManager.getTransaction().commit();
+        entityManager.close();
+        return reservations;
     }
 
     // Fermer le EntityManagerFactory lorsque vous avez fini d'utiliser le ReservationRepository

@@ -4,13 +4,14 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="627.0" prefWidth="756.0" xmlns="http://javafx.com/javafx/20.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.devoir_java2.Controller.ChauffeurController">
     <children>
         <!-- TableView for displaying chauffeurs -->
-        <TableView fx:id="tableFX" layoutX="52.0" layoutY="177.0" onMouseClicked="#charge" prefHeight="236.0" prefWidth="671.0">
+        <TableView fx:id="tableFX" layoutX="52.0" layoutY="210.0" onMouseClicked="#charge" prefHeight="236.0" prefWidth="671.0">
             <columns>
                 <TableColumn fx:id="id" prefWidth="39.0" text="ID" />
                 <TableColumn fx:id="username" prefWidth="120.0" text="Nom du Chauffeur" />
@@ -29,5 +30,6 @@
         </Label>
         <!-- Button to add a new chauffeur -->
         <Button layoutX="53.0" layoutY="100.0" mnemonicParsing="false" onAction="#chauffeurform" prefHeight="25.0" prefWidth="135.0" style="-fx-background-color: purple;" text="Ajouter un Chauffeur" textFill="WHITE" />
+      <TextField fx:id="search" layoutX="483.0" layoutY="145.0" onKeyReleased="#search" prefHeight="25.0" prefWidth="240.0" promptText="Search" />
     </children>
 </AnchorPane>
