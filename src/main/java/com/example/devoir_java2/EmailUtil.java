@@ -14,8 +14,16 @@ public class EmailUtil {
     private static final String USERNAME = System.getenv("SMTP_USERNAME");
     private static final String PASSWORD = System.getenv("SMTP_PASSWORD");
 
-
     public static void sendEmail(String toEmail, String subject, String messageBody) {
+        // Debugging statements
+        System.out.println("SMTP_USERNAME: " + USERNAME);
+        System.out.println("SMTP_PASSWORD: " + PASSWORD);
+
+        if (USERNAME == null || PASSWORD == null) {
+            System.out.println("Username or Password is null. Please check environment variables.");
+            return;
+        }
+
         Properties prop = new Properties();
         prop.put("mail.smtp.host", SMTP_SERVER);
         prop.put("mail.smtp.port", "587");
@@ -30,15 +38,15 @@ public class EmailUtil {
 
         try {
             Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(USERNAME));
+            message.setFrom(new InternetAddress(USERNAME)); // L'expéditeur
             message.setRecipients(
                     Message.RecipientType.TO,
-                    InternetAddress.parse(toEmail)
+                    InternetAddress.parse(toEmail) // Le destinataire
             );
             message.setSubject(subject);
             message.setText(messageBody);
 
-            Transport.send(message);
+            Transport.send(message); // Envoi de l'email
 
             System.out.println("Email sent successfully");
 

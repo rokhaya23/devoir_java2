@@ -43,6 +43,8 @@ public class ReservationFormController implements Initializable {
 
     private User currentUser;
 
+    private static final String ADMIN_EMAIL = System.getenv("SMTP_USERNAME"); // Remplacez par l'adresse email de l'administrateur
+
     public void setReservationRepository(ReservationRepository reservationRepository) {
         this.reservationRepository = reservationRepository;
     }
@@ -90,6 +92,8 @@ public class ReservationFormController implements Initializable {
             reservation.setId(Long.parseLong(idField.getText()));
         }
         sendReservationEmail(reservation);
+        sendReservationEmailToAdmin(reservation);
+        showConfirmationAlert();
         return reservation;
     }
 
@@ -129,6 +133,14 @@ public class ReservationFormController implements Initializable {
         alert.showAndWait();
     }
 
+    private void showConfirmationAlert() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Réservation effectuée");
+        alert.setHeaderText(null);
+        alert.setContentText("Votre réservation a été effectuée avec succès et un email a été envoyé à l'administrateur.");
+        alert.showAndWait();
+    }
+
     private void sendReservationEmail(Reservation reservation) {
         String toEmail = reservation.getClient().getEmail();
         String subject = "Confirmation de réservation";
@@ -142,6 +154,23 @@ public class ReservationFormController implements Initializable {
                 "Merci d'avoir utilisé notre service.\n" +
                 "Cordialement,\n" +
                 "Votre équipe de réservation.";
+
+        EmailUtil.sendEmail(toEmail, subject, body);
+    }
+
+    private void sendReservationEmailToAdmin(Reservation reservation) {
+        String toEmail = ADMIN_EMAIL;
+        String subject = "Nouvelle réservation effectuée";
+        String body = "Une nouvelle réservation a été effectuée par " + reservation.getClient().getName() + ".\n\n" +
+                "Voici les détails de la réservation :\n\n" +
+                "Départ : " + reservation.getVilleDepart() + "\n" +
+                "Arrivée : " + reservation.getVilleArrivee() + "\n" +
+                "Date et heure : " + reservation.getDateReservation().toString() + "\n" +
+                "Nombre de places : " + reservation.getNbPlaces() + "\n" +
+                "Statut : " + reservation.getStatut() + "\n\n" +
+                "Merci de vérifier et de traiter cette réservation.\n" +
+                "Cordialement,\n" +
+                "Votre système de réservation.";
 
         EmailUtil.sendEmail(toEmail, subject, body);
     }
