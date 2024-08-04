@@ -5,6 +5,7 @@ import com.example.devoir_java2.MODEL.AppContext;
 import com.example.devoir_java2.MODEL.Reservation;
 import com.example.devoir_java2.MODEL.User;
 import com.example.devoir_java2.Repository.ReservationRepository;
+import com.example.devoir_java2.Repository.UserRepository;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -13,11 +14,13 @@ import javafx.stage.Stage;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class ReservationFormController implements Initializable {
 
     private ReservationRepository reservationRepository;
+    private UserRepository userRepository ;
     private Reservation reservation;
 
     @FXML
@@ -92,7 +95,6 @@ public class ReservationFormController implements Initializable {
             reservation.setId(Long.parseLong(idField.getText()));
         }
         sendReservationEmail(reservation);
-        sendReservationEmailToAdmin(reservation);
         showConfirmationAlert();
         return reservation;
     }
@@ -158,22 +160,6 @@ public class ReservationFormController implements Initializable {
         EmailUtil.sendEmail(toEmail, subject, body);
     }
 
-    private void sendReservationEmailToAdmin(Reservation reservation) {
-        String toEmail = ADMIN_EMAIL;
-        String subject = "Nouvelle réservation effectuée";
-        String body = "Une nouvelle réservation a été effectuée par " + reservation.getClient().getName() + ".\n\n" +
-                "Voici les détails de la réservation :\n\n" +
-                "Départ : " + reservation.getVilleDepart() + "\n" +
-                "Arrivée : " + reservation.getVilleArrivee() + "\n" +
-                "Date et heure : " + reservation.getDateReservation().toString() + "\n" +
-                "Nombre de places : " + reservation.getNbPlaces() + "\n" +
-                "Statut : " + reservation.getStatut() + "\n\n" +
-                "Merci de vérifier et de traiter cette réservation.\n" +
-                "Cordialement,\n" +
-                "Votre système de réservation.";
-
-        EmailUtil.sendEmail(toEmail, subject, body);
-    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

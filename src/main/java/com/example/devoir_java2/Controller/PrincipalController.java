@@ -105,7 +105,7 @@ public class PrincipalController {
         } else if ("Chauffeur".equals(userRole)) {
             setSidebarItemsVisibility(true, true, true, false, false);
         } else if ("Client".equals(userRole)) {
-            setSidebarItemsVisibility(true, true, true, false, false);
+            setSidebarItemsVisibility(false, true, true, false, false);
         }
     }
 

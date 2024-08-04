@@ -10,23 +10,14 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 public class EmailUtil {
-    private static final String SMTP_SERVER = "smtp.gmail.com";
-    private static final String USERNAME = System.getenv("SMTP_USERNAME");
-    private static final String PASSWORD = System.getenv("SMTP_PASSWORD");
+    private static final String USERNAME = "2956851bec81e1";
+    private static final String PASSWORD = "c2d5123b3a003c";
 
     public static void sendEmail(String toEmail, String subject, String messageBody) {
-        // Debugging statements
-        System.out.println("SMTP_USERNAME: " + USERNAME);
-        System.out.println("SMTP_PASSWORD: " + PASSWORD);
-
-        if (USERNAME == null || PASSWORD == null) {
-            System.out.println("Username or Password is null. Please check environment variables.");
-            return;
-        }
 
         Properties prop = new Properties();
-        prop.put("mail.smtp.host", SMTP_SERVER);
-        prop.put("mail.smtp.port", "587");
+        prop.put("mail.smtp.host", "sandbox.smtp.mailtrap.io");
+        prop.put("mail.smtp.port", "2525");
         prop.put("mail.smtp.auth", "true");
         prop.put("mail.smtp.starttls.enable", "true");
 
@@ -38,7 +29,7 @@ public class EmailUtil {
 
         try {
             Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(USERNAME)); // L'expéditeur
+            message.setFrom(new InternetAddress("from@example.com")); // L'expéditeur
             message.setRecipients(
                     Message.RecipientType.TO,
                     InternetAddress.parse(toEmail) // Le destinataire

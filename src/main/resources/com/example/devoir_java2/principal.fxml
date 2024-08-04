@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
@@ -13,111 +12,62 @@
    <children>
       <HBox>
          <!-- Drawer -->
-         <AnchorPane fx:id="drawerPane" minWidth="0.0" prefHeight="709.0" prefWidth="55.0" style="-fx-background-color: white;">
+         <AnchorPane fx:id="drawerPane" minWidth="0.0" prefHeight="709.0" prefWidth="55.0" style="-fx-background-color: purple;">
             <FontAwesomeIcon fx:id="toggleDrawerIcon" glyphName="TH_LIST" layoutX="16.0" layoutY="27.0" onMouseClicked="#toggleDrawer" size="1.5em" wrappingWidth="20.571428298950195" />
-            <VBox alignment="CENTER" layoutX="13.0" layoutY="187.0" prefHeight="162.0" prefWidth="149.0" spacing="10.0">
+            <VBox alignment="CENTER" layoutX="13.0" layoutY="187.0" prefHeight="162.0" prefWidth="149.0" spacing="30.0" style="-fx-alignment: center;">
                <!-- Icônes avec actions -->
-               <HBox alignment="CENTER_LEFT">
-                  <children>
-                  <FontAwesomeIcon fx:id="homeIcon" fill="#a19d9d" glyphName="HOME" onMouseClicked="#homeclik" size="1.5em" textAlignment="CENTER">
-                     <HBox.margin>
-                        <Insets right="20.0" />
-                     </HBox.margin></FontAwesomeIcon>
-                  <Label fx:id="homelabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="36.0" prefWidth="75.0" text="Home" textAlignment="CENTER" visible="false">
-                     <font>
-                        <Font size="13.0" />
-                     </font>
-                        <HBox.margin>
-                           <Insets right="15.0" />
-                        </HBox.margin>
-                  </Label>
-                  </children>
-               </HBox>
-               <HBox>
-                  <children>
-                     <FontAwesomeIcon fx:id="trajetIcon" fill="#a19d9d" glyphName="ROAD" onMouseClicked="#trajetclik" size="1.5em" textAlignment="CENTER">
-                        <HBox.margin>
-                           <Insets right="15.0" top="15.0" />
-                        </HBox.margin>
-                     </FontAwesomeIcon>
-                     <Label fx:id="trajetlabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="36.0" prefWidth="75.0" text="Trajet" textAlignment="CENTER" visible="false">
-                        <HBox.margin>
-                           <Insets right="16.0" top="10.0" />
-                        </HBox.margin>
-                        <font>
-                           <Font size="13.0" />
-                        </font>
-                     </Label>
-                  </children>
-               </HBox>
-               <HBox>
-                  <children>
-                  <FontAwesomeIcon fx:id="reservIcon" fill="#a19d9d" glyphName="CLIPBOARD" onMouseClicked="#reservationclik" size="1.5em">
-                     <HBox.margin>
-                        <Insets right="15.0" top="16.0" />
-                     </HBox.margin>
-                  </FontAwesomeIcon>
-                  <Label fx:id="reservlabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="36.0" prefWidth="75.0" text="Réservation" textAlignment="CENTER" visible="false">
-                     <HBox.margin>
-                        <Insets right="7.0" top="10.0" />
-                     </HBox.margin>
+               <HBox alignment="CENTER_LEFT" spacing="25">
+                  <FontAwesomeIcon fx:id="homeIcon" fill="#a19d9d" glyphName="HOME" onMouseClicked="#homeclik" size="1.5em" textAlignment="CENTER" />
+                  <Label fx:id="homelabel" alignment="CENTER_LEFT" contentDisplay="CENTER" style="-fx-text-fill: white;" text="Home" textAlignment="CENTER" textFill="WHITE" visible="false">
                      <font>
                         <Font size="13.0" />
                      </font>
                   </Label>
-                  </children>
-               </HBox>
-               <HBox onMouseClicked="#userclik">
-                  <children>
-                  <FontAwesomeIcon fx:id="userIcon" fill="#a19d9d" glyphName="USER" onMouseClicked="#userclik" size="1.5em">
-                     <HBox.margin>
-                        <Insets right="20.0" top="16.0" />
-                     </HBox.margin>
-                  </FontAwesomeIcon>
-                  <Label fx:id="userlabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="36.0" prefWidth="75.0" text="User" textAlignment="CENTER" visible="false">
-                     <HBox.margin>
-                        <Insets right="7.0" top="10.0" />
-                     </HBox.margin>
-                     <font>
-                        <Font size="13.0" />
-                     </font>
-                  </Label>
-                  </children>
-               </HBox>
-               <HBox alignment="CENTER_LEFT">
-                  <children>
-                     <FontAwesomeIcon fx:id="voitureIcon" fill="#a19d9d" glyphName="CAR" onMouseClicked="#voitureclik" size="1.5em">
-                        <HBox.margin>
-                           <Insets right="20.0" top="16.0" />
-                        </HBox.margin>
-                     </FontAwesomeIcon>
-                     <Label fx:id="voiturelabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="36.0" prefWidth="75.0" text="Voiture" textAlignment="CENTER" visible="false">
-                        <font>
-                           <Font size="13.0" />
-                        </font>
-                        <HBox.margin>
-                           <Insets top="10.0" />
-                        </HBox.margin>
-                     </Label>
-                  </children>
                </HBox>
 
-               <HBox fx:id="bottomHBox" alignment="CENTER_LEFT" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
-                  <children>
-                     <FontAwesomeIcon fx:id="logoutIcon" fill="#a19d9d" fontSmoothingType="LCD" glyphName="SIGN_OUT" onMouseClicked="#logout" size="1.5em">
-                        <HBox.margin>
-                           <Insets right="21.0" top="90.0" />
-                        </HBox.margin>
-                     </FontAwesomeIcon>
-                     <Label fx:id="logoutLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="36.0" prefWidth="75.0" text="Déconnexion" textAlignment="CENTER" visible="true">
-                        <font>
-                           <Font size="13.0" />
-                        </font>
-                        <HBox.margin>
-                           <Insets right="21.0" top="90.0" />
-                        </HBox.margin>
-                     </Label>
-                  </children>
+               <HBox alignment="CENTER_LEFT" spacing="23">
+                  <FontAwesomeIcon fx:id="trajetIcon" fill="#a19d9d" glyphName="ROAD" onMouseClicked="#trajetclik" size="1.5em" textAlignment="CENTER" />
+                  <Label fx:id="trajetlabel" alignment="CENTER_LEFT" contentDisplay="CENTER" style="-fx-text-fill: white;" text="Trajet" textAlignment="CENTER" textFill="WHITE" visible="false">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Label>
+               </HBox>
+
+               <HBox alignment="CENTER_LEFT" spacing="24">
+                  <FontAwesomeIcon fx:id="reservIcon" fill="#a19d9d" glyphName="CLIPBOARD" onMouseClicked="#reservationclik" size="1.5em" />
+                  <Label fx:id="reservlabel" alignment="CENTER_LEFT" contentDisplay="CENTER" style="-fx-text-fill: white;" text="Réservation" textAlignment="CENTER" textFill="WHITE" visible="false">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Label>
+               </HBox>
+
+               <HBox alignment="CENTER_LEFT" spacing="27">
+                  <FontAwesomeIcon fx:id="userIcon" fill="#a19d9d" glyphName="USER" onMouseClicked="#userclik" size="1.5em" />
+                  <Label fx:id="userlabel" alignment="CENTER_LEFT" contentDisplay="CENTER" style="-fx-text-fill: white;" text="User" textAlignment="CENTER" textFill="WHITE" visible="false">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Label>
+               </HBox>
+
+               <HBox alignment="CENTER_LEFT" spacing="23">
+                  <FontAwesomeIcon fx:id="voitureIcon" fill="#a19d9d" glyphName="CAR" onMouseClicked="#voitureclik" size="1.5em" />
+                  <Label fx:id="voiturelabel" alignment="CENTER_LEFT" contentDisplay="CENTER" style="-fx-text-fill: white;" text="Voiture" textAlignment="CENTER" textFill="WHITE" visible="false">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Label>
+               </HBox>
+
+               <HBox fx:id="bottomHBox" alignment="CENTER_LEFT" spacing="26" AnchorPane.bottomAnchor="10.0">
+                  <FontAwesomeIcon fx:id="logoutIcon" fill="#a19d9d" glyphName="SIGN_OUT" onMouseClicked="#logout" size="1.5em" />
+                  <Label fx:id="logoutLabel" alignment="CENTER_LEFT" contentDisplay="CENTER" style="-fx-text-fill: white;" text="Déconnexion" textAlignment="CENTER" textFill="WHITE" visible="true">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Label>
                </HBox>
             </VBox>
          </AnchorPane>

@@ -64,11 +64,12 @@ public class HomeController implements Initializable {
         TrajetRepository trajetRepository = new TrajetRepository();
         chargerBarChart();
         piechart();
-        nbUser.setText("Nombre d'utilisateurs: "+utilisateurRepository.countUtilisateur());
-        nbRes.setText("Nombre de réservations : "+reservationRepository.countReservation());
-        nbtrajet.setText("Nombre de trajets : "+trajetRepository.countTrajet());
-        nbCon.setText("Nombre de conducteurs : "+utilisateurRepository.countUtilisateurConducteur());
-        nbPas.setText("Nombre de passagers : "+utilisateurRepository.countUtilisateurPassager());
+        nbUser.setText(String.valueOf(utilisateurRepository.countUtilisateur()));
+        nbRes.setText(String.valueOf(reservationRepository.countReservation()));
+        nbtrajet.setText(String.valueOf(trajetRepository.countTrajet()));
+        nbCon.setText(String.valueOf(utilisateurRepository.countUtilisateurConducteur()));
+
+//        nbPas.setText("Nombre de passagers : "+utilisateurRepository.countUtilisateurPassager());
     }
 
 }
