@@ -43,13 +43,23 @@ public class VehiculeRepository {
         }
     }
 
-    public Vehicule getVehiculeById(Long id) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
+    public Vehicule findByChauffeurId(Long chauffeurId) {
+        EntityManagerFactory emf = JPAUTIL.getEntityManagerFactory();
+        EntityManager em = emf.createEntityManager();
+
+        Vehicule vehicule = null;
+
         try {
-            return entityManager.find(Vehicule.class, id);
+            vehicule = em.createQuery("SELECT v FROM Vehicule v WHERE v.chauffeur.id = :chauffeurId", Vehicule.class)
+                    .setParameter("chauffeurId", chauffeurId)
+                    .getSingleResult();
+        } catch (Exception e) {
+            e.printStackTrace();
         } finally {
-            entityManager.close();
+            em.close();
         }
+
+        return vehicule;
     }
 
     public void updateVehicule(Vehicule vehicule) {

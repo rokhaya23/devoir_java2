@@ -23,6 +23,7 @@ public class TrajetFormController implements Initializable {
 
     private TrajetRepository trajetRepository;
     private UserRepository userRepository;
+    private VehiculeRepository voitureRepository;
     private Trajet trajet;
 
     @FXML
@@ -74,6 +75,7 @@ public class TrajetFormController implements Initializable {
 
             if (trajet.getUser() != null) {
                 chauffeurComboBox.setValue(trajet.getUser());
+                updateNombreField(trajet.getUser());
             }
         }
     }
@@ -119,6 +121,7 @@ public class TrajetFormController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         this.trajetRepository = new TrajetRepository();
         this.userRepository = new UserRepository();
+        this.voitureRepository = new VehiculeRepository();
 
         nombreField.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 20, 1));
         hourSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23, LocalTime.now().getHour()));
@@ -146,5 +149,20 @@ public class TrajetFormController implements Initializable {
                         .orElse(null);
             }
         });
+
+        chauffeurComboBox.valueProperty().addListener((observable, oldValue, newValue) -> updateNombreField(newValue));
+
+    }
+
+    private void updateNombreField(User chauffeur) {
+        if (chauffeur != null) {
+            Vehicule vehicule = voitureRepository.findByChauffeurId(chauffeur.getId());
+            if (vehicule != null) {
+                nombreField.getValueFactory().setValue(vehicule.getNbres_place());
+            } else {
+                showAlert("Erreur", "Aucun véhicule associé à ce chauffeur.");
+                nombreField.getValueFactory().setValue(1); // Valeur par défaut si aucun véhicule n'est trouvé
+            }
+        }
     }
 }
